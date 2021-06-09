@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>NSRunLoop 初识 | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">NSRunLoop 初识</h1><span class="post-meta"></span><br><br><p>##NSRunLoop几个常用的方法：</p>
+<ul>
+<li><p>####+ ( NSRunLoop *) currentRunLoop;<br>//获得当前线程的run loop</p>
+</li>
+<li><p>####+ ( NSRunLoop *) mainRunLoop;<br>//获得主线程的run loop</p>
+</li>
+<li><p>####- ( void ) run;<br>//进入处理事件循环，如果没有事件则立刻返回。注意：主线程上调用这个方法会导致无法返回（进入无限循环，虽然不会阻塞主线程），因为主线程一般总是会有事件处理。</p>
+</li>
+<li><p>####- ( void ) runUntilDate:(NSDate *)limitDate;<br>//同run方法，增加超时参数limitDate，避免进入无限循环。使用在UI线程（亦即主线程）上，可以达到暂停的效果。</p>
+</li>
+<li><p>####- ( BOOL ) runMode:(NSString *)mode beforeDate:(NSDate *)limitDate;<br>//等待消息处理，好比在PC终端窗口上等待键盘输入。一旦有合适事件（mode相当于定义了事件的类型）被处理了，则立刻返回；类同run方法，如果没有事件处理也立刻返回；有否事件处理由返回布尔值判断。同样limitDate为超时参数。</p>
+</li>
+<li><p>####- ( void ) acceptInputForMode:(NSString *)mode beforeDate:(NSDate *)limitDate;<br>//似乎和runMode:差不多（测试过是这种结果，但确定是否有其它特殊情况下的不同），没有BOOL返回值。</p>
+</li>
+</ul>
+<p>###官网文档也提到run和runUntilDate:会以NSDefaultRunLoopMode参数调用runMode:来处理事件。</p>
+<p>当app运行后，iOS系统已经帮助主线程启动一个run loop，而一般线程则需要手动来启动run loop。</p>
+<p>使用run loop的一个好处就是避免线程轮询的开销，run loop在无事件处理时可以自动进入睡眠状态，降低CPU的能耗。</p>
+<p>比如一般线程轮询的方式为：</p>
+<pre><code>while (condition)
+
+&#123;
+    // waiting for new data
+    sleep(1);
+    // process current data
+
+&#125;
+</code></pre>
+<p>其实这种方式是很能消耗CPU时间片的，如果在UI线程中这样使用还会阻塞UI响应。而改用NSRunLoop来实现，则可大大改善线程的执行效率，而且不会阻塞UI（很神奇，呵呵。有点像javascript，用单线程实现多线程的效果）。上面的例子可以改为：</p>
+<pre><code>while (condition)
+
+&#123;
+    // waiting for new data
+    if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+    &#123;
+    // process current data
+    &#125;
+&#125;
+</code></pre>
+<p>接下来我们看看具体的例子，包括如何实现线程执行的关联同步（join），以及UI线程run loop的一般使用技巧等。</p>
+<p>假设有个线程A，它会启动线程B，然后等待B线程的结束。NSThread是没有join的方法，用run loop方式实现就比较精巧。</p>
+<pre><code>NSThread *A; //global
+
+A = [[NSThread alloc] initWithTarget:self selector:@selector(runA) object:nil]; //生成线程A
+
+[A start]; //启动线程A
+
+- (void)runA
+&#123;
+    [NSThread detachNewThreadSelector:@selector(runB) toTarget:self withObject:nil]; //生成线程B
+while (1)
+&#123;
+　    if ([[NSRunLoop currentRunLoop]         runMode:@&quot;CustomRunLoopMode&quot; beforeDate:[NSDate distantFuture]]) 
+　      &#123;//相当于join
+　　        NSLog(@&quot;线程B结束&quot;);
+　　　    break;
+　      &#125;
+    &#125;
+&#125;
+
+- (void)runB
+&#123;
+　　sleep(1);
+　　[self performSelector:@selector(setData) onThread:A withObject:nil waitUntilDone:YES modes:@[@&quot;CustomRunLoopMode&quot;]];
+&#125;
+</code></pre>
+<p>实际运行时，过1秒后线程A也会自动结束。这里用到自定义的mode，一般在UI线程上调用run loop会使用缺省的mode。结合while循环，UI线程就可以实现子线程的同步运行（具体例子这里不再描述，可参看：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/tangbinblog/archive/2012/12/07/2807088.html%EF%BC%89%E3%80%82">http://www.cnblogs.com/tangbinblog/archive/2012/12/07/2807088.html）。</a></p>
+<p>下面罗列调用主线程的run loop的各种方式，读者可以加深理解：</p>
+<ul>
+<li><p>#####[[NSRunLoop mainRunLoop] run];<br>//主线程永远等待，但让出主线程时间片</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runUntilDate:[NSDate distantFuture]];<br>//等同上面调用</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runUntilDate:[NSDate date]]; //立即返回</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:10.0]]; //主线程等待，但让出主线程时间片，然后过10秒后返回</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate distantFuture]];<br>//主线程等待，但让出主线程时间片；有事件到达就返回，比如点击UI等。</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate date]];<br>//立即返回</p>
+</li>
+<li><p>#####[[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate: [NSDate dateWithTimeIntervalSinceNow:10.0]];<br>//主线程等待，但让出主线程时间片；有事件到达就返回，如果没有则过10秒返回。</p>
+</li>
+</ul>
+</article><br><br><span class="next-post"><a href="/2014/03/07/2014-03-07-ios-learn-road-introduce/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2014/04/13/2014-04-13-opensource-about-c/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>

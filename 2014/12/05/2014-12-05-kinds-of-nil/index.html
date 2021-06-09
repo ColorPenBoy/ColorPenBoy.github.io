@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>nil / Nil / NULL / NSNull | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">nil / Nil / NULL / NSNull</h1><span class="post-meta"></span><br><br><p><a target="_blank" rel="noopener" href="http://nshipster.com/nil/">原文地址</a></p>
+<p>理解一个不存在的状态的概念，如同理解“这是一个务实的人”这样的哲学问题一样。我们都是这个宇宙的居民，但是原因在一个存在的不确定性的逻辑宇宙。作为一个逻辑系统的物理表现,计算机面临的棘手问题：如何用something来表示nothing。</p>
+<p>在Objective-C中，有几个不同种类的方式表示nothing。这样做的原因可以追溯到<a target="_blank" rel="noopener" href="http://nshipster.com/ns_enum-ns_options/">NSHipster的原来的一节</a>, Objective-C如何桥接C的程序范例和Smalltalk-inspried面向对象范例。</p>
+<p>C语言使用 0 这个原始值代表nothing，NULL代表指针(<a target="_blank" rel="noopener" href="http://c-faq.com/null/nullor0.html">相当于指针上下文中的0</a>)。</p>
+<p>Objective-C 是建立在C语言的，通过增加 nil 表示nothing。nil 是一个指针指向nothing的对象。虽然nil在语义上不同于NULL，但是在技术上是相同的。</p>
+<p>在framework层，Foundation框架定义了NSNull，NSNull类定义了一个类函数+null，返回一个单例的NSNull对象。NSNull不同于nil和NULL，它是一个实际的对象,而不是一个零值。</p>
+<p>另外，在 Foundation/NSObjCRuntime.h 中，Nil被定义成一个表示nothing的类指针。与nil非常相似的东西出现得不多,但至少它是值得注意的。</p>
+<p>###There’s Something About nil</p>
+<p>NSObjects从<a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/index.html">其内容设置为0</a>开始生命周期。</p>
+<p>这意味着，所有指向其它对象的指针对象都是以nil开始的,对于一个实例来说，在 init 函数中设置 self.(association) = nil 是不必要的,也许nil最引人注意的行为，是可以发送消息给它。</p>
+<p>在其它语言中，类似C++，这样将会导致你的程序崩溃，但是在Objective-C中，对nil调用一个函数，将返回 0 值。这极大地简化了表达式, 因为它消除了在做任何事情之前都需要检查是否为nil的需求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// For example, this expression...</span><br><span class="line">if (name != nil &amp;&amp; [name isEqualToString:@&quot;Steve&quot;]) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">// ...can be simplified to:</span><br><span class="line">if ([name isEqualToString:@&quot;Steve&quot;]) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>认识到nil是如何在Objective-C中工作的，将使它成为一个方便的功能，而不是一个潜伏在程序中的bug。一定要防范那些 nil 值是不需要的情况，在早期就通过检查然后返回失败，或者加一个 <code>NSParameterAssert（可以称之为断言）</code>来抛出一个异常。</p>
+<p>###NSNull: Something for Nothing</p>
+<p>在 Foundation 和其它 framework 中 NSNull 被用来绕开像NSArray和NSDictionary这样的集合不可以包含nil值的局限性。 你可以把NSNull想象成 NULL或者nil的包装，使它们可以用在集合中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];</span><br><span class="line"></span><br><span class="line">// Sets value of NSNull singleton for `someKey`</span><br><span class="line">mutableDictionary[@&quot;someKey&quot;] = [NSNull null];</span><br><span class="line"></span><br><span class="line">// @[@&quot;someKey&quot;]</span><br><span class="line">NSLog(@&quot;Keys: %@&quot;, [mutableDictionary allKeys]);</span><br></pre></td></tr></table></figure>
+
+<p>###回顾一下<br>这里是每个Objective-C开发者都需要知道的，4种表示nothing的值：</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL</td>
+<td>(void *)0</td>
+<td>C 指针</td>
+</tr>
+<tr>
+<td>nil</td>
+<td>(id)0</td>
+<td>Objective-C 对象</td>
+</tr>
+<tr>
+<td>Nil</td>
+<td>(Class)0</td>
+<td>Objective-C 类</td>
+</tr>
+<tr>
+<td>NSNull</td>
+<td>[NSNull null]</td>
+<td>单例对象</td>
+</tr>
+</tbody></table>
+</article><br><br><span class="next-post"><a href="/2014/11/09/2014-11-09-GCD_读书笔记/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2015/03/10/2015-03-10-面向切面编程(Aspect Oriented Programming)/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>

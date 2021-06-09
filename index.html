@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><h4 class="page-title">Recent Articles</h4><a href="/2017/03/19/2017-03-19-ubuntu-install-docker/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Ubuntu 安装Docker</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">一、docker安装1、卸载旧版本docker全新安装时，无需执行该步骤
+1$ sudo apt-get remove docker docker-engine docker.io
+
+2、更新系统软件1$ sudo apt-get update
+
+3、安装依赖包12345$ sudo apt-get install \    apt-transport-https \    ca-certificates \    curl \    </p></article></a><a href="/2017/02/03/2017-02-03-git-tips/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Git Tips：使用Git的一些基本技能</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Tip0：本地已有文件了，如何加入git管理git init
+git add .
+git commit -m &amp;quot;init xxx&amp;quot;
+Tip1：查询历史commit log使用 git log
+
+
+这个commit-hash-id是每次commit的唯一标识码。
+Tip2：版本回滚如果某天产品突发奇想，让你加了一个十分难以实现的需求，代码散在整个项目到处都是。
+就在你刚刚长舒一口气，终于完成了需求的时候，产品又过来了，</p></article></a><a href="/2017/01/09/2017-01-09-how-to-use-github/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">How To Use Github</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">自己用了好久的Github，以前也遇到了很多坑，不会用的地方，摸索明白了但是没有总结，最近公司的代码管理终于由SB SVN切换到Git了(不要喷，不是我能决定的，不然早切了)，突然想起应该总结一下，留一份笔记。
+基本信息Git是分布式的代码管理工具，远程的代码管理是基于SSH的，所以要使用远程的Git则需要SSH的配置。
+使用如何从本地把项目上传到Github。
+
+首先必须先在Github上创建一个新仓库
+然后依次执行以下步骤
+
+123</p></article></a><a href="/2016/12/19/2016-12-19-xcodebuild_introduce/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">iOS打包匣的构建</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">
+传统手动打包流程
+
+然而优秀的程序员是懒惰的，所有超过1分钟的事情，都不需要手动处理。所以，我们优化成了下面这个流程
+
+自动打包流程
+
+
+xcodebuild命令简介打开iTerm或者terminal，输入命令man xcodebuild会看到如下图所示：
+
+部分主要命令含义
+xcodebuild [-project name.xcodeproj] [[-target targetname] ... | -alltargets] bu</p></article></a><a href="/2016/12/08/2016-12-08-functional_programming_currying/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Swift踩坑日记（一）</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Swift踩坑日记（一）swift是一门支持多范式编程的强大编程语言，从传统的OOP到FRP、POP等都可以兼容并包。切换swift以来，从原来的Objective-C Style 人肉翻译，到现在的 Swift Style乐趣无穷，中间踩了不少坑，一点点记录下来，也是对自己的总结提高。 
+废话不多说，直接上需求：在中国地图上根据每个省的销售量多少，显示对应的深浅颜色（可以理解为降雨量分布）。废话不多说，先上效果图。
+
+首先实现指示条颜</p></article></a><a href="/2016/11/20/2016-11-20-ios-protocol-dispatcher/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Protocol协议分发器(转载)</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Protocol协议分发器(转载)转自：庞海礁的个人空间 
+原文作者Github
+何为协议分发？协议分发可以简单理解为将协议代理交给多个对象实现！
+Protocol协议代理在开发中应用频繁，开发者经常会遇到一个问题——事件的连续传递。比如，为了隔离封装，开发者可能经常会把tableview的delegate或者datesource抽离出独立的对象，而其它对象（比如VC）需要获取某些delegate事件时，只能通过事件的二次传递。有没有更</p></article></a><a href="/2016/07/10/2016-07-10-AFNetworking-1/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">AFNetworking系列一：使用</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">笔记整理（版本比较老，后续更新）
+1.检测网络状态12345678910111213141516171819202122- (void)monitorNetworkType &amp;#123;    // iPhone网络状态(WAN, Wi-Fi, 不可达)    // 基本原理: 通过一个域名去判断    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationMa</p></article></a><a href="/2016/05/21/2016-05-21-zsh-open-markdown/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Mac OS X系统如何在命令行使用对应软件打开对应文件</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">情景是这样的，我用命令行clone下一个github repositorie，想要编辑文件夹中的README.md文件。由于markdown文件在Mac系统默认打开方式是使用Xcode。所以,使用open README.md 默认使用Xcode打开。但是，我希望使用Macdown这个软件打开它。
+直接使用1macdown README.md 
+这个命令显示是错误的。
+解决办法：
+在/usr/local/bin/中创建macdown的软连</p></article></a><a href="/2016/05/09/2016-05-09-tmux/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Tmux命令（基础）</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Ctrl + b 为Tmux进入命令模式的快捷键，以下记录的命令，都需要先按Ctrl + b进入命令模式以后，再输入。
+
+shift + &amp;#39;  - 将当前窗口上下分屏
+% - 将当前窗口左右分屏
+方向键 - 在各个窗口间切换
+c - (c)reat生成一个新窗口
+n - (n)ext移动到下一个窗口
+p - (p)revious移动到前一个窗口
+空格 - 采用下一个内置布局
+q - 显示分隔窗口的编号
+o - 跳到下一个分隔窗口</p></article></a><a href="/2016/04/22/2016-04-22-RGBA/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">UIImage与RGBA、BGR、GrayScale</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">由于业务需求，CoreDev 封装的 SDK是由C++ OpenCV编写的，需要图片转换成BGR格式。
+Demo在这里
+格式类型：
+RBGA -  包含Alpha通道
+RGB
+BGR
+Gray - 灰度图
+
+首先理解一张图片的组成，每张图片都是由无数个有序排列的带有颜色的像素点（Pixel）组成的，这些Pixel的排列都可以理解为一个二维数组，每个Pixel都是一个颜色点，即包含RGBA的Pixel。
+什么是RGBA呢
+R - Red
+</p></article></a><a href="/2015/12/01/2015-12-01-程序员也疯狂—给你的Atom加入炫酷震动效果/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">“程序员也疯狂——给你的Atom加入炫酷震动效果&quot;</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">直奔主题，前戏滴不要。你们先感受下掉渣天的效果： 
+也可以感受下作者
+每个程序员看见这么叼的效果，第一个想法就是装上，细细把玩儿一番。所以废话不多说，这就开始我们的炫酷之旅。
+
+安装Atom1sudo brew install Caskroom/cask/atom    #OS X 10.11.不支持通过命令行安装
+
+我的系统是Mac OS X 10.11.1，所以需要下载DMG文件安装。
+ 安装activate-power-mode
+</p></article></a><a href="/2015/10/09/2015-10-09-Declare-A-block-In-OC/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">如何在Objective-C中声明一个block</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">
+局部变量：
+
+1returnType (^blockName)(parameterTypes) = ^returnType(parameters) &amp;#123;...&amp;#125;;
+
+
+属性:
+
+1@property (nonatomic, copy) returnType (^blockName)(parameterTypes);
+
+
+参数:
+
+1- (void)someMethodThatTakesABlock:(returnTy</p></article></a><a href="/2015/09/13/2015-09-13-CATransform3D学习/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">CATransform3D</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">今天我们来说一说CATransform3D，我们要做一些炫酷的动画效果，旋转、缩放、翻转等等，总是离不开CALayer的transform属性。而transform就是CATransform3D类型的。
+开始正题之前，补充几个经常用到的属性概念，虽然我们每天都在使用他们，而且也大概知道它们代表什么意思，可是总是有一些不太清晰的地方。
+
+frame一个CGRect值，用来设置控件的位置与大小。其实，给View设置一个新的frame，Vie</p></article></a><a href="/2015/08/27/2015-08-27-Cent-OS-Install-Openfire-IM-Server/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Linux搭建Openfire即时聊天服务器完整流程</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">XMPP服务器集群搭建 - ejabberd插件-安装java环境
+下载jdk-8u51-linux-x64.rpm，用sftp命令上传到服务器
+1234//连接sftpsftp root@xxx.xxx.xxx.xxx//上传sftp put 本地文件路径 目标服务器路径
+
+ssh登录服务器
+1ssh root@xxx.xxx.xxx.xx
+
+cd到文件所在目录，使用rpm命令安装
+1rpm -ivh jdk-8u51-linux-x</p></article></a><a href="/2015/08/26/2015-08-26-Cent-OS-Install-Nginx/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">CentOS 6.5 配置YUM安装NGINX</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">
+首先，在/etc/yum.repos.d/目录下创建一个源配置文件nginx.repo：
+12cd /etc/yum.repos.d/vim nginx.repo
+
+填写如下内容：
+12345[nginx]name=nginx repobaseurl=http://nginx.org/packages/centos/$releasever/$basearch/gpgcheck=0enabled=1
+
+保存，则会产生一个/etc/yum</p></article></a><a href="/2015/08/26/2015-08-26-Cent-OS-Install-MySql/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">CentOS 6.5 配置安装MySql</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Cent OS 6.5 配置安装MySql第1步、yum安装mysql
+1[root@stonex ~]#  yum -y install mysql-server
+
+安装结果：
+Installed:
+1mysql-server.x86_64 0:5.1.73-3.el6_5                                                                                  </p></article></a><a href="/2015/08/24/2015-08-24-Cent-OS-Install-JDK/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Cent OS安装JDK</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">
+1.查看CentOS自定JDK是否已经安装     
+
+1yum list installed | grep java
+
+2.卸载系统自带Java环境
+ 卸载JDK相关文件输入：   yum -y remove java-1.7.0-openjdk*
+ 卸载tzdata-java输入：
+`yum -y remove tzdata-java.noarch`
+
+
+3.解压源码包
+
+
+123456789101112131415// 1、通过</p></article></a><a href="/2015/08/24/2015-08-24-Cent-OS-Install-Apache/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Cent OS安装Apache</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Apache安装使用通过原代码编译安装；
+12yum -y install httpdrpm -qa | grep httpd
+
+启动 service httpd start
+停止 service httpd stop
+重新启动 service httpd restart
+状态 service httpd status
+验证服务是否启动，比较少用 pstree | grep httpd
+
+正在启动 
+1httpd：httpd: Coul</p></article></a><a href="/2015/07/16/2015-07-16-runtime学习/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Runtime学习</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">学习Runtime，就是要搞清楚这几个问题：
+什么是 Runtime 
+
+Runtime 有什么用途 
+
+Runtime 的API及其用法 
+
+Runtime 的实际使用
+
+
+什么是 Runtime？Objective-C是一门简单的语言，95%是C。只是在语言层面上加了些关键字和语法。真正让Objective-C如此强大的是Runtime 。它很小但却很强大。它的核心是消息分发。
+Objective-C具有相当多的动态特性，基本的，也</p></article></a><a href="/2015/06/20/2015-06-20-Effective Objective-C 2.0 读书笔记_48/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Effective Objective-C 2.0 读书笔记</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Tip. 48 多用块枚举，少用for循环iOS开发过程中，很多地方需要遍历NSArray、NSDictionary、NSSet等类型的Collection。遍历Collection基本方式有4种
+-for 循环遍历
+-NSEnumerator
+-快速遍历
+-块枚举法
+一、说到遍历，我们第一个想起来的当然是for循环：
+123456NSArray * anArray = @[...];for (int i = 0 , i &amp;lt; an</p></article></a><a href="/2015/06/08/2015-06-08-rsa/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">iOS下RSA加密方法</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">最近在新的项目中，有一个需求，在登录注册的请求中，需要使用RSA + MD5对用户密码进行加密，而不是仅仅只使用 MD5 加密。而iOS上并没有直接的RSA加密API。但是iOS提供了x509的API，x509是支持RSA加密的。
+那么，什么是x509呢？x509是一种非常通用的证书格式。所有的证书都符合ITU-T X.509国际标准。因此（理论上）为一种应用创建的证书可以用于任何其他符合X.509标准的应用。  
+X.509 给出的鉴</p></article></a><a href="/2015/03/10/2015-03-10-面向切面编程(Aspect Oriented Programming)/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">面向切面编程(Aspect Oriented Programming)</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">当iOS Coders在写一个App时，避免不了的需要使用UMeng、ShareSDK、JPush、BaiduMap、AMap等等乱七八糟的第三方SDK时，大部分都会在文档中看到这样一段，需要在AppDelegate中的DidFinishLaunch中进行注册。这样导致了DidFinishLaunch最后成了一个非常冗杂又臃肿的函数。也有很多小伙伴把这些第三方的东西分门别类的提出来，放在AppDelegate中的下面，在didFinis</p></article></a><a href="/2014/12/05/2014-12-05-kinds-of-nil/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">nil / Nil / NULL / NSNull</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">原文地址
+理解一个不存在的状态的概念，如同理解“这是一个务实的人”这样的哲学问题一样。我们都是这个宇宙的居民，但是原因在一个存在的不确定性的逻辑宇宙。作为一个逻辑系统的物理表现,计算机面临的棘手问题：如何用something来表示nothing。
+在Objective-C中，有几个不同种类的方式表示nothing。这样做的原因可以追溯到NSHipster的原来的一节, Objective-C如何桥接C的程序范例和Smalltalk-in</p></article></a><a href="/2014/11/09/2014-11-09-GCD_读书笔记/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Grand Central Dispatch读书笔记</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">1.GCD摘要什么是GCD？
+GCD是英文Grand Central Dispatch 的缩写，直译过来就是”大  中枢  派发”。从名字就可以看得出来，GCD是需要从宏观的角度来处理多线程的。我们需要站在一个通览全局的角度上来控制队列、线程。我们只需要把想要执行的任务定义好，然后追加到适当的队列（Dispatch Queue）中，GCD就可以生成必要的线程执行任务，而不必我们亲自去管理线程，大大的方便了我们的开发。
+GCD中使用blo</p></article></a><a href="/2014/10/17/2014-10-17-xcode_other_linker_flags_note/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">关于Xcode上的Other linker flags(转载笔记)</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">####背景在ios开发过程中，有时候会用到第三方的静态库(.a文件)，然后导入后发现编译正常但运行时会出现selector not recognized的错误，从而导致app闪退。接着仔细阅读库文件的说明文档，你可能会在文档中发现诸如在Other Linker Flags中加入-ObjC或者-all_load这样的解决方法。
+那么，Other Linker Flags到底是用来干什么的呢？还有-ObjC和-all_load到底发挥了什</p></article></a><a href="/2014/09/22/2014-09-22-how-to-use-git/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">如何使用Github进行代码提交？</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">####使用 Github下载代码
+1、找到Github上要下载的代码页面，复制git地址，类似于：    git@github.com:yourgithubaccount/yourproject.git
+3、到本地要存放代码的目录下，使用如下命令下载代码：
+123456789101112131415161718192021222324git clone git@github.com:yourgithubaccount/yourproj</p></article></a><a href="/2014/08/13/2014-08-13-xcode-plug-in-introduce/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Xcode 中几种插件的介绍</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">###1、VVDocumenter下载地址
+使用方法:采用三个斜杠（///）来生成文档注释
+
+###2、XVim下载地址
+使用方法:
+
+###3、KSImageNamedKSImageNamed是一款方便填写图片文件名称的插件。支持NSImage和UIImage，当你写到[UIImage imaged:的时候，插件会把项目中的图片名称提示出来，并且还有预览功能，对经常用代码生成图片视图的童鞋十分方便。
+下载地址
+使用方法:
+
+4、Col</p></article></a><a href="/2014/07/14/2014-07-14-tips-make-corner-radius/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">如何给头像切圆角</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">做iOS开发中，避免不了的一个问题是，把正方形的头像UIImageView切成圆形。
+
+Select One
+首先说一下最简单粗暴的方法，那就是让美工做一个与UIImageView大小相同，中间镂空出一个内切圆形，背景与UIImageView所在位置背景相同的图片，覆盖上去，收工。代码如下:    )
+1234567891011CGRect headImageRect = CGRectMake(10, 10, 50, 50)// 正方形</p></article></a><a href="/2014/06/08/2014-06-08-use-jsonkit/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">JSONKit的使用（PS.勿使用SBJson）</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">####JSONKit库是非常简单易用而且效率又比较高。
+下载地址
+使用JSONKit库来解析json文件，只需要下载JSONKit.h 和JSONKit.m添加到工程中；然后加入libz.dylib即可
+解析代码举例：#import &amp;quot;JSONKit.h&amp;quot;
+
+//假设 strJson 是网络上接收到的 json 字符串，
+NSString *strJson = @&amp;quot;[&amp;#123;\&amp;quot;Id\&amp;qu</p></article></a><a href="/2014/06/05/2014-06-05-xmpp-introduce/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">XMPP - 简单介绍</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">一、即时通讯简单介绍
+1、简单说明
+即时通讯技术（IM）支持用户在线实时交谈。如果要发送一条信息，用户需要打开一个小窗口，以便让用户及其朋友在其中输入信息并让交谈双方都看到交谈的内容
+有许多的IM系统，如AOL IM、Yahoo IM、 MSN以及QQ，它们最大的区别在于各自通讯协议的实现，所以即时通讯技术的核心在于它的传输协议
+协议用来说明信息在网络上如何传输，如果有了统一的传输协议，那么应当可以实现各个IM之间的直接通讯，为了创建即</p></article></a><a href="/2014/05/01/2014-05-01-how-to-learning-english-coding/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">How to learning English--Coding</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">###（PS.五一劳动节，小小劳动一下）对于咱们这些高端大气、时刻需要和国际接轨的码农，英语的重要性自然是毋庸置疑的。尤其是那些胸怀大志的潜在大牛们，想在码农行业闯出一片天地，秒杀身边的小弟们，熟练掌握英语更是实现其目标最关键的因素之一。否则，试想在你捧着某出版社刚刚翻译出来的《JSP 高效编程》苦苦学习JSP模板的时候，你旁边的小弟却是拿着原版的《AngularJS in Action》学习开发单页面应用，虽然你们都同样认真地学习了一</p></article></a><a href="/2014/04/13/2014-04-13-opensource-about-c/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">10个C语言开源项目(推荐)</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">###1. WebbenchWebbench是一个在linux下使用的非常简单的网站压测工具。它使用fork()模拟多个客户端同时访问我们设定的URL，测试网站在压力下工作的性能，最多可以模拟3万个并发连接去测试网站的负载能力。Webbench使用C语言编写, 代码实在太简洁，源码加起来不到600行。###2. Tinyhttpdtinyhttpd是一个超轻量型Http Server，使用C语言开发，全部代码只有502行(包括注释)，附</p></article></a><a href="/2014/04/03/2014-04-03-nsrunloop-learning-1/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">NSRunLoop 初识</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">##NSRunLoop几个常用的方法：
+
+####+ ( NSRunLoop *) currentRunLoop;//获得当前线程的run loop
+
+####+ ( NSRunLoop *) mainRunLoop;//获得主线程的run loop
+
+####- ( void ) run;//进入处理事件循环，如果没有事件则立刻返回。注意：主线程上调用这个方法会导致无法返回（进入无限循环，虽然不会阻塞主线程），因为主线程一般总是会有事</p></article></a><a href="/2014/03/07/2014-03-07-ios-learn-road-introduce/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">iOS开发路线简述</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">##转自cocoachina很多学习资料值得收藏
+iOS系统以及iPhone的出来都要感谢乔布斯，一个完美主义者，从如此优秀的iOS系统和iPhone就可以看出来。下面就简单介绍一下我iOS开发的感受，也是学习iOS开发的一个体系架构。
+###1. iOS开发环境
+
+1.1 开发环境
+
+标准的配置是MacOSX+Xcode。
+MacOSX的话首选用苹果电脑，macmini最便宜只要4000多就好了然后自己配一个显示器，macbookpr</p></article></a><a href="/2014/03/04/2014-03-04-ios-learning-information/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">iOS 的一些学习资料(转)</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">#转自Aufree的一篇 iOS 学习资料整理
+这份学习资料是为 iOS 初学者所准备的, 旨在帮助 iOS 初学者们快速找到适合自己的学习资料, 节省他们搜索资料的时间, 使他们更好的规划好自己的 iOS 学习路线, 更快的入门, 更准确的定位的目前所处的位置.
+该文档会持续更新, 同时也欢迎更多具有丰富经验的 iOS 开发者将自己的常用的一些工具, 学习资料, 学习心得等分享上来, 我将定期筛选合并, 文档尚有一些不完善之处, 也请</p></article></a><a href="/2014/02/25/2014-02-25-hello-world/" class="article"><article itemscope itemprop="blogPost" itemtype="https://schema.org/BlogPosting" class="item"><h2 itemprop="headline">Hello World</h2><span class="post-meta"></span><p itemprop="text" class="post-excerpt">Enter intro here to display on home page</p></article></a></main></body></html>

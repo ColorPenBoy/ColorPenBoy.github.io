@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>CATransform3D | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">CATransform3D</h1><span class="post-meta"></span><br><br><p>今天我们来说一说CATransform3D，我们要做一些炫酷的动画效果，旋转、缩放、翻转等等，总是离不开CALayer的transform属性。而transform就是CATransform3D类型的。</p>
+<p>开始正题之前，补充几个经常用到的属性概念，虽然我们每天都在使用他们，而且也大概知道它们代表什么意思，可是总是有一些不太清晰的地方。</p>
+<ul>
+<li>frame一个CGRect值，用来设置控件的位置与大小。其实，给View设置一个新的frame，View是没有储存frame的，只是通过frame的设置修改了其对应layer的position和bounds。</li>
+<li>position一个CGPoint值，它指定图层相对父图层的位置，该值基于父图层的坐标系。</li>
+<li>bounds一个CGRect值，指定图层的大小（bounds.size）和图层的原点（bounds.origin），这个坐标系是基于View自身的。如果改变bounds的origin，那么在该图层的子图层，坐标会跟着改变，但它的父图层的位置不变。</li>
+<li>anchorPoint（锚点）  一个CGPoint值，它是指定了一个基于bounds的坐标系的位置。代表bounds相对于position的值，同时也作为一个变化时候的中心点。锚点使用空间坐标系取值范围是0-1之间的数。默认是0.5，也就是View的中心点，如果是（0，0）那么，图层向左上方移动。如果是（1，1）就向右下方移动。  文字永远没有图片来的直观，看图秒懂：   <img src="/images/catransform3d_1.png" alt="Snip20151104_22">  在对View进行旋转等变换时，都是按照图片中红色的点来进行缩放，偏移等。效果图是这样的：   （P.S. 右侧OS X 与iOS略有不同，如果只专注iOS开发，可无视它）<img src="/images/catransform3d_2.png" alt="catransform3d_2">  缩放是这样的，大家感受一下：   <img src="/images/catransform3d_3.png" alt="catransform3d_3"></li>
+</ul>
+<h4 id="CATransform3D"><a href="#CATransform3D" class="headerlink" title="CATransform3D"></a>CATransform3D</h4><p>下面我们开始进入今天的正题——通过矩阵实现图层的几何变换。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/* Homogeneous three-dimensional transforms. */</span><br><span class="line">struct CATransform3D</span><br><span class="line">&#123;</span><br><span class="line">   CGFloat m11, m12, m13, m14;</span><br><span class="line">   CGFloat m21, m22, m23, m24;</span><br><span class="line">   CGFloat m31, m32, m33, m34;</span><br><span class="line">   CGFloat m41, m42, m43, m44;</span><br><span class="line">&#125;;</span><br><span class="line">typedef struct CATransform3D CATransform3D;</span><br><span class="line">```    </span><br><span class="line">下面是矩阵元素具体功能：</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<pre><code>struct CATransform3D
+&#123;
+    CGFloat   m11（x缩放）, m12（y切变）, m13（旋转）, m14（）;
+    CGFloat   m21（x切变）, m22（y缩放）, m23（）,     m24（）;
+    CGFloat   m31（旋转）,  m32（ ）,     m33（）,     m34（透视效果，要操作的这个对象要有旋转的角度，否则没有效果。正直/负值都有意义）;
+    CGFloat   m41（x平移）, m42（y平移）, m43（z平移）, m44（）;
+&#125;;
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">   上面是xcode的文档，由此可见CATransform3D是一个结构体，本质是一个4阶矩阵，用于图层的旋转，缩放，偏移，歪斜和应用的透视。</span><br><span class="line">    </span><br><span class="line">layer的2个属性指定了变换矩阵：transform 和 sublayerTransform。</span><br><span class="line">    </span><br><span class="line">* transform  </span><br><span class="line">      </span><br><span class="line">      结合 anchorPoint 的位置来对图层和图层上的子图层进行变化。</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">* sublayerTransform</span><br><span class="line">      </span><br><span class="line">      结合anchorPoint 的位置来对图层的子图层进行变化，但是不包括本身。</span><br><span class="line">        </span><br><span class="line">* CATransform3DIdentity 是单位矩阵，该矩阵没有缩放，旋转，歪斜，透视。该矩阵应用到图层上，就是设置默认值。</span><br><span class="line">* CATransform3DMakeTranslation是如下的矩阵</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<pre><code>                1    0    0    0
+                0    1    0    0
+                0    0    1    0
+                tx  ty   tz    1                 ```
+</code></pre>
+<p>这样CATransform3DMakeTranslation (CGFloat tx, CGFloat ty, CGFloat tz)的 3个参数意思就是</p>
+<blockquote>
+<p>tx：X轴偏移位置，往下为正数。</p>
+</blockquote>
+<blockquote>
+<p>ty：Y轴偏移位置，往右为正数。</p>
+</blockquote>
+<blockquote>
+<p>tz：Z轴偏移位置，往外为正数。</p>
+</blockquote>
+<p>对于tz来说，值越大，那么图层就越往外（屏幕上层），值越小，图层越往里（屏幕下层）。</p>
+<p>看下图感受一下：</p>
+<p>绿色与黄色两个tz不同的layer<img src="/images/catransform3d_4.png" alt="catransform3d_4"></p>
+<p>CATransform3D CATransform3DMakeScale (CGFloat sx, CGFloat sy, CGFloat sz);</p>
+<blockquote>
+<p>sx：X轴缩放，代表一个缩放比例，一般都是 0 — 1 之间的数字。</p>
+</blockquote>
+<blockquote>
+<p>sy：Y轴缩放。</p>
+</blockquote>
+<blockquote>
+<p>sz：整体比例变换时，也就是m11（sx）== m22（sy）时，若m33（sz）&gt;1，图形整体缩小，若0&lt;1，图形整体放大，若m33（sz）&lt;0，发生关于原点的对称等比变换。</p>
+</blockquote>
+<pre><code>CATransform3D CATransform3DMakeRotation (CGFloat angle, CGFloat x, CGFloat y, CGFloat z);
+</code></pre>
+<p>旋转效果。</p>
+<p>angle：旋转的弧度，所以要把角度转换成弧度：角度 * M_PI / 180。</p>
+<blockquote>
+<p>x：向X轴方向旋转。值范围-1 — 1之间</p>
+</blockquote>
+<blockquote>
+<p>y：向Y轴方向旋转。值范围-1 — 1之间</p>
+</blockquote>
+<blockquote>
+<p>z：向Z轴方向旋转。值范围-1 — 1之间<br>        ​</p>
+</blockquote>
+<p>注意：</p>
+<ul>
+<li>CATransform3D CATransform3DTranslate (CATransform3D t, CGFloat tx, CGFloat ty, CGFloat tz);</li>
+<li>CATransform3D CATransform3DScale (CATransform3D t, CGFloat sx, CGFloat sy, CGFloat sz);</li>
+<li>CATransform3D CATransform3DRotate (CATransform3D t, CGFloat angle, CGFloat x, CGFloat y, CGFloat z);</li>
+</ul>
+<p>t：就是上一个函数。其他的参数意义都一样。</p>
+<p>可以理解为：函数的叠加，效果的叠加。</p>
+<p>​<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_8f5097be0101b91z.html">部分摘自这里</a></p>
+</article><br><br><span class="next-post"><a href="/2015/08/27/2015-08-27-Cent-OS-Install-Openfire-IM-Server/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2015/10/09/2015-10-09-Declare-A-block-In-OC/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>

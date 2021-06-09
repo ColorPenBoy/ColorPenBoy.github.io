@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>How To Use Github | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">How To Use Github</h1><span class="page-tag-anchor"><a href="/tags/git、ssh" itemprop="url">#git、ssh
+&nbsp;&nbsp;</a></span><span class="post-meta"></span><br><br><p>自己用了好久的Github，以前也遇到了很多坑，不会用的地方，摸索明白了但是没有总结，最近公司的代码管理终于由SB SVN切换到Git了(不要喷，不是我能决定的，不然早切了)，突然想起应该总结一下，留一份笔记。</p>
+<h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p>Git是分布式的代码管理工具，远程的代码管理是基于SSH的，所以要使用远程的Git则需要SSH的配置。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>如何从本地把项目上传到Github。</p>
+<ul>
+<li>首先必须先在Github上创建一个新仓库</li>
+<li>然后依次执行以下步骤</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ touch README.md</span><br><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;first commit&quot;</span><br><span class="line">$ git remote add origin git@github.com:YourUserName/YourRepoName.git</span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+<ul>
+<li>遇到的问题</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin git@github.com:YourUserName/YourRepoName.git</span><br><span class="line">fatal: remote origin already exists.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>解决办法</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm origin</span><br><span class="line">$ git remote add origin git@github.com:YourUserName/YourRepoName.git </span><br></pre></td></tr></table></figure>
+<h3 id="github的SSH配置如下："><a href="#github的SSH配置如下：" class="headerlink" title="github的SSH配置如下："></a>github的SSH配置如下：</h3><h4 id="一-、设置Git的user-name和email："><a href="#一-、设置Git的user-name和email：" class="headerlink" title="一 、设置Git的user name和email："></a>一 、设置Git的user name和email：</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;your name&quot;</span><br><span class="line">$ git config --global user.email &quot;your e-mail@xxx.com&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、生成SSH密钥过程："><a href="#二、生成SSH密钥过程：" class="headerlink" title="二、生成SSH密钥过程："></a>二、生成SSH密钥过程：</h4><p>1.查看是否已经有了ssh密钥：cd ~/.ssh<br>如果没有密钥则不会有此文件夹，有则备份删除</p>
+<p>2.生存密钥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your e-mail@xxx.com&quot;</span><br></pre></td></tr></table></figure>
+<p>按3个回车，密码为空。</p>
+<p>最后得到了两个文件：id_rsa和id_rsa.pub</p>
+<p>3.添加密钥到ssh：ssh-add 文件名<br>需要之前输入密码。</p>
+<p>4.在github上添加ssh密钥，这要添加的是“id_rsa.pub”里面的公钥。<br>打开<a target="_blank" rel="noopener" href="https://github.com/">https://github.com</a> ，登陆your name，然后添加ssh。</p>
+<p>5.测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、-开始使用github"><a href="#三、-开始使用github" class="headerlink" title="三、 开始使用github"></a>三、 开始使用github</h4><p>1.获取源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git@github.com:/YourUserName/YourRepoName.git</span><br></pre></td></tr></table></figure>
+
+<p>2.这样你的机器上就有一个repo了。</p>
+<p>3.git于svn所不同的是git是分布式的，没有服务器概念。所有的人的机器上都有一个repo，每次提交都是给自己机器的repo<br>仓库初始化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+
+<p>生成快照并存入项目索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add . </span><br></pre></td></tr></table></figure>
+
+<p>文件,还有git rm,git mv等等…<br>项目索引提交：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit</span><br></pre></td></tr></table></figure>
+
+<p>4.协作编程：<br>将本地repo于远程的origin的repo合并，</p>
+<p>推送本地更新到远程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<p>更新远程更新到本地：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin master</span><br></pre></td></tr></table></figure>
+
+<p>补充：<br>添加远端repo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add upstream git://github.com/YourUserName/YourRepoName.git</span><br></pre></td></tr></table></figure>
+
+<p>重命名远端repo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git://github.com/YourUserName/YourRepoName.git为“upstream”</span><br></pre></td></tr></table></figure>
+
+</article><br><br><span class="next-post"><a href="/2016/12/19/2016-12-19-xcodebuild_introduce/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2017/02/03/2017-02-03-git-tips/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>

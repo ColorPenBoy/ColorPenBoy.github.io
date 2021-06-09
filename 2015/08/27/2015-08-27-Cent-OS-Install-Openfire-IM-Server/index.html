@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Linux搭建Openfire即时聊天服务器完整流程 | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">Linux搭建Openfire即时聊天服务器完整流程</h1><span class="post-meta"></span><br><br><h4 id="XMPP服务器集群搭建-ejabberd插件"><a href="#XMPP服务器集群搭建-ejabberd插件" class="headerlink" title="XMPP服务器集群搭建 - ejabberd插件"></a>XMPP服务器集群搭建 - ejabberd插件</h4><p>-安装java环境</p>
+<p>下载jdk-8u51-linux-x64.rpm，用sftp命令上传到服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//连接sftp</span><br><span class="line">sftp root@xxx.xxx.xxx.xxx</span><br><span class="line">//上传</span><br><span class="line">sftp put 本地文件路径 目标服务器路径</span><br></pre></td></tr></table></figure>
+
+<p>ssh登录服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@xxx.xxx.xxx.xx</span><br></pre></td></tr></table></figure>
+
+<p>cd到文件所在目录，使用rpm命令安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh jdk-8u51-linux-x64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>安装完成以后，查看一下java版本，如果有信息就是安装成功了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2550br7l7Z usr]# java -version</span><br></pre></td></tr></table></figure>
+
+<p>显示如下结果是正常的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;1.8.0_51&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_51-b16)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.51-b03, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<p>2.1、添加mysql rpm到你的rpm仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm</span><br><span class="line"></span><br><span class="line">Alt text</span><br></pre></td></tr></table></figure>
+
+<p>2.2、安装 mysql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-community-server</span><br><span class="line"></span><br><span class="line">Alt text</span><br></pre></td></tr></table></figure>
+
+<p>2.3、开启 mysql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br><span class="line">[root@localhost ~]# ps aux | grep mysql</span><br></pre></td></tr></table></figure>
+
+<p>显示如下结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql     2925  0.0  0.1 115216  1672 ?        Ss   04:05   0:00 /bin/sh /usr/bin/mysqld_safe</span><br><span class="line"></span><br><span class="line">mysql     3076  0.6 10.8 696716 109480 ?       Sl   04:05   0:00 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --pl=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">root      3102  0.0  0.0 112640   976 pts/0    R+   04:06   0:00 grep --color=auto mysql</span><br></pre></td></tr></table></figure>
+
+<p>修改mysql root密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password 123456</span><br></pre></td></tr></table></figure>
+
+<p>如果有必要，可以修改my.cnf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi /etc/my.cnf</span><br></pre></td></tr></table></figure>
+
+<p>2.4、重启mysql服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysqld</span><br></pre></td></tr></table></figure>
+
+<p>2.5、设置自启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysqld on</span><br></pre></td></tr></table></figure>
+
+<p>如果忘记了root密码： </p>
+<p>2.6、编辑/etc/my.cnf</p>
+<p>在[mysqld] 配置部分添加一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure>
+
+<p>2.7、保存后重启mysql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost etc]# service mysqld restart</span><br><span class="line"></span><br><span class="line">Shutting down MySQL.                                       [  OK  ]</span><br><span class="line">Starting MySQL.                                            [  OK  ]</span><br></pre></td></tr></table></figure>
+
+<p>2.8、登录数据库重新设置root密码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# mysql -uroot -p mysql</span><br><span class="line">Enter password:</span><br></pre></td></tr></table></figure>
+
+<p>直接回车进入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 1</span><br><span class="line">Server version: 5.1.47-log Source distribution</span><br><span class="line">Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line">This software comes with ABSOLUTELY NO WARRANTY. This is free software,</span><br><span class="line">and you are welcome to modify and redistribute it under the GPL v2 license</span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| test               |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>执行下列语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update user set password=password(&quot;yourpassword&quot;) where user=&#x27;root&#x27;;</span><br><span class="line">Query OK, 4 rows affected (0.00 sec)</span><br><span class="line">Rows matched: 4  Changed: 4  Warnings: 0</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>2.9、删除/etc/my.cnf文件中添加的“skip-grant-tables”行，重启mysql；</p>
+<p>用新设的密码就能正常登录了；</p>
+<p>3.1 下载安装openfire</p>
+<p>下载openfire-3.10.0-1.i386.rpm，用sftp命令上传到服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//连接sftp</span><br><span class="line">sftp root@xxx.xxx.xxx.xxx</span><br><span class="line">//上传</span><br><span class="line">sftp put 本地文件路径 目标服务器路径</span><br></pre></td></tr></table></figure>
+
+<p>ssh登录服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@xxx.xxx.xxx.xx</span><br></pre></td></tr></table></figure>
+
+<p>cd到文件所在目录，使用rpm命令安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh openfire-3.10.0-1.i386.rpm</span><br></pre></td></tr></table></figure>
+
+<p>3.2、设置openfire数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql -p</span><br><span class="line">mysql&gt; CREATE DATABASE openfire CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line">mysql&gt; GRANT ALL ON openfire.* TO &#x27;openfire&#x27;@&#x27;localhost&#x27; IDENTIFIED BY &#x27;yourpassword&#x27;;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; use openfire;</span><br><span class="line">mysql&gt; source /opt/openfire/resources/database/openfire_mysql.sql;</span><br><span class="line">mysql&gt; exit</span><br></pre></td></tr></table></figure>
+
+<p>3.3、开启mysql远程访问权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql;</span><br><span class="line">mysql&gt; update user set host = ‘%’ where user = ‘root’;</span><br><span class="line">mysql&gt; select host, user from user;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">//youruser 是mysql的用户名，yourpassword 是mysql的密码</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#x27;youruser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;yourpassword&#x27; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+
+<p>3.4、开启openfire</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service openfire start</span><br><span class="line">chkconfig openfire on</span><br></pre></td></tr></table></figure>
+
+<p>如果开启失败，安装libstdc++库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install libstdc++.i686</span><br><span class="line">yum install -y glibc.i686</span><br></pre></td></tr></table></figure>
+
+<p>然后重新执行开启openfire的命令。</p>
+<p>运行起来之后，就可以用浏览器访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx.xx.xxx.xxx:9090</span><br></pre></td></tr></table></figure>
+<p>打开openfire的后台了，接下来按着提示步骤设置即可。</p>
+</article><br><br><span class="next-post"><a href="/2015/08/26/2015-08-26-Cent-OS-Install-Nginx/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2015/09/13/2015-09-13-CATransform3D学习/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>

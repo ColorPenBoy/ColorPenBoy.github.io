@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>iOS打包匣的构建 | 彩笔</title><meta name="description"><meta name="generator" content="彩笔"><meta name="author" content="Color Pen"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="彩笔" title="彩笔" itemprop="headline">彩笔</a></h1><p itemprop="description">眼中阅尽繁华，心中鲜衣怒马</p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">iOS打包匣的构建</h1><span class="post-meta"></span><br><br><ul>
+<li>传统手动打包流程<br><img src="/images/xcodebuide/manualpacking.png"></li>
+</ul>
+<p><em><strong>然而优秀的程序员是懒惰的，所有超过1分钟的事情，都不需要手动处理。所以，我们优化成了下面这个流程</strong></em></p>
+<ul>
+<li>自动打包流程</li>
+<li><img src="/images/xcodebuide/automaticpacking.png"></li>
+</ul>
+<h2 id="xcodebuild命令简介"><a href="#xcodebuild命令简介" class="headerlink" title="xcodebuild命令简介"></a>xcodebuild命令简介</h2><p>打开<code>iTerm</code>或者<code>terminal</code>，输入命令<code>man xcodebuild</code>会看到如下图所示：</p>
+<p><img src="/images/xcodebuide/commandmain.png"></p>
+<h4 id="部分主要命令含义"><a href="#部分主要命令含义" class="headerlink" title="部分主要命令含义"></a>部分主要命令含义</h4><ul>
+<li><p><code>xcodebuild [-project name.xcodeproj] [[-target targetname] ... | -alltargets] build</code></p>
+<p>  会 build 指定 project，其中 -target 和 -configuration 参数可以使用 xcodebuild -list 获得，-sdk 参数可由 xcodebuild -showsdks 获得，[buildsetting=value …] 用来覆盖工程中已有的配置。</p>
+</li>
+<li><p><code>xcodebuild -workspace name.xcworkspace -scheme scheme name build</code></p>
+<p>  build 指定 workspace，当我们使用 CocoaPods 来管理第三方库时，会生成 xcworkspace 文件，这样就会用到这种打包方式</p>
+</li>
+<li><p><code>xcodebuild -version</code></p>
+<p>  当前电脑Xcode版本，以及xcodebuild版本</p>
+<p>  <img src="/images/xcodebuide/command4.png"></p>
+</li>
+<li><p><code>xcodebuild -showsdks</code> </p>
+<p>  列出 Xcode 所有可用的 SDKs</p>
+<p>  <img src="/images/xcodebuide/command5.png"></p>
+</li>
+<li><p><code>xcodebuild -showBuildSettings</code> </p>
+<p>  查看当前工程 build setting 的配置参数，Xcode 详细的 build setting 参数参考官方文档 Xcode Build Setting Reference， 已有的配置参数可以在终端中以 buildsetting=value 的形式进行覆盖重新设置</p>
+<p>  <img src="/images/xcodebuide/command6.png"></p>
+<p>  (图片太长，就不截全了)</p>
+</li>
+<li><p><code>xcodebuild -list</code></p>
+<p>  查看 project 中的 targets 和 configurations，或者 workspace 中 schemes, 输出如下:</p>
+<p>  <img src="/images/xcodebuide/command7.png"></p>
+</li>
+</ul>
+<h4 id="部分主要参数含义"><a href="#部分主要参数含义" class="headerlink" title="部分主要参数含义"></a>部分主要参数含义</h4><ul>
+<li><p><code>-project -workspace</code></p>
+<p>  这两个对应的就是项目的名字也就是说哪一个工程要打包。如果有多个工程，这里又没有指定，则默认为第一个工程。</p>
+</li>
+<li><p><code>-target</code></p>
+<p>  打包对应的targets，如果没有指定这默认第一个。</p>
+</li>
+</ul>
+<ul>
+<li><p><code>buildsetting=value ...</code></p>
+<p>  使用此命令去修改工程的配置。但是在实际应用中，我选择了读取文件去修改一个配置，而没有应用此种方法。</p>
+</li>
+<li><p><code>-scheme</code></p>
+<p>  指定打包的scheme。</p>
+</li>
+</ul>
+<h4 id="其它帮助方法"><a href="#其它帮助方法" class="headerlink" title="其它帮助方法"></a>其它帮助方法</h4><ul>
+<li><p><code>xcrun xcodebuild -help</code></p>
+<p>  查看 exportOptionsPlist 可以写入的键值对</p>
+<p>  <img src="/images/xcodebuide/commandother.png"></p>
+</li>
+</ul>
+<h2 id="Python打包脚本简介"><a href="#Python打包脚本简介" class="headerlink" title="Python打包脚本简介"></a>Python打包脚本简介</h2><p><a target="_blank" rel="noopener" href="https://github.com/ColorPenBoy/autopacking.git">Github地址</a></p>
+<h2 id="Continuous-integration-in-Xcode-CI-持续集成"><a href="#Continuous-integration-in-Xcode-CI-持续集成" class="headerlink" title="Continuous integration in Xcode(CI:持续集成)"></a>Continuous integration in Xcode(CI:持续集成)</h2><ul>
+<li>CI Server的好处  1、CI Server可以自动分析代码，运行单元和UI测试，在其他有价值的任务中构建项目。如果代码出现问题，它会将结果通知可能引入该问题的人。  2、Xcode Server跟踪每个集成的所有新问题以及已解决的问题。对于新的问题，bot将显示一系列可能产生问题的提交。  3、我们不再需要处理所部署环境的配置文件和证书，从而允许团队中的任何人轻松发布新版本的应用程序。</li>
+</ul>
+<ul>
+<li><p>Reference</p>
+<p>  <a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/">Apple官方网址</a></p>
+<p>  <a target="_blank" rel="noopener" href="https://blog.xmartlabs.com/2016/03/07/ci-with-xcode-server-and-fastlane/">CI AND AUTOMATIC DEPLOYMENT TO ITUNES CONNECT WITH XCODE SERVER</a></p>
+<p>  <a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20161207/18314.html">cocoa china - 1</a></p>
+<p>  <a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20161207/18315.html">cocoa china - 2</a></p>
+</li>
+</ul>
+</article><br><br><span class="next-post"><a href="/2016/12/08/2016-12-08-functional_programming_currying/" itemprop="url">Older Post ⇒</a></span><span class="prev-post"><a href="/2017/01/09/2017-01-09-how-to-use-github/" itemprop="url">⇐ Next Post </a></span><br><br><br></main></body></html>
